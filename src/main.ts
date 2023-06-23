@@ -1,5 +1,5 @@
 import './assets/main.css'
-
+import './assets/icomoon/style.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
