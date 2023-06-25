@@ -9,11 +9,14 @@
                 @click="activateTab"
         />
       </div>
-      <div>
-        <input type="text" placeholder="Izlash">
-        <button>
-          <i class="icon icon-filter"></i>
-          Filter
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-2 p-2.5 bg-gray-600 rounded-md">
+          <i class="icon icon-search text-xl text-gray-300"></i>
+          <input type="text" placeholder="Izlash" class="placeholder-gray-300 bg-transparent outline-0">
+        </div>
+        <button class="flex items-center gap-2.5 px-8 py-2 bg-blue-100 rounded-md">
+          <i class="icon icon-filter text-blue-700"></i>
+          <span class="text-blue-700 font-medium">Filter</span>
         </button>
       </div>
     </nav>
@@ -35,7 +38,7 @@ const items = [
   },
   {
     link: '/admin/students',
-    title:'Talabalar}'
+    title:'Talabalar'
   }
 ]
 const isActive = ref(false)
