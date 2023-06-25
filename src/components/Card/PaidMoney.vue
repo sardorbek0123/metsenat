@@ -1,6 +1,6 @@
 <template>
-  <div class="flex p-6 gap-4">
-    <div class="px-2 py-1.5 rounded-xl " :class="bgColor" >
+  <div class="flex p-6 gap-4 bg-white rounded-xl">
+    <div class="px-2 py-1.5 rounded-xl" :class="bgColor">
       <i class="icon icon-cash text-3xl" :class="textColor"></i>
     </div>
     <div>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps } from 'vue'
 
 const props = defineProps({
   title: String,
@@ -27,5 +27,5 @@ const props = defineProps({
   currency: String,
   bgColor: String,
   textColor: String
-});
+})
 </script>

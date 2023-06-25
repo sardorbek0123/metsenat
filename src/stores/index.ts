@@ -1,42 +1,42 @@
-import {ref, computed} from 'vue'
-import {defineStore} from 'pinia'
+import { ref, computed } from 'vue'
+import { defineStore } from 'pinia'
+import { getItem, removeItem } from '@/service/localstorage'
 
-interface AuthTokens {
-    access_token: string
-    refresh_token: string
+interface ITokens {
+  access_token: string
+  refresh_token: string
 }
 
-export const useAUTHStore = defineStore(('main'), () => {
+export const useAuthStore = defineStore('main', () => {
+  const accessToken = getItem('access_token')
+  const refresh_token = getItem('refresh_token')
 
-    const access_token = ref(localStorage.getItem('access_token'))
-    const refresh_token = ref(localStorage.getItem('refresh_token'))
+  const isAuthenticated = computed(() => {
+    return !(!accessToken.value && !refresh_token.value)
+  })
 
-    const isAuthenticated = computed(() => {
-        return !(!access_token.value && !refresh_token.value)
-    })
-
-    const getTokens = computed(() => {
-        return {
-            access_token: access_token.value,
-            refresh_token: refresh_token.value
-        }
-    })
-
-    const logOut = () => {
-        localStorage.removeItem('access_token')
-        localStorage.removeItem('refresh_token')
-        access_token.value = null
-        refresh_token.value = null
+  const getTokens = computed(() => {
+    return {
+      access_token: accessToken.value,
+      refresh_token: refresh_token.value
     }
+  })
 
-    const setTokens = (tokens: AuthTokens) => {
-        localStorage.setItem('access_token', tokens.access_token)
-        localStorage.setItem('refresh_token', tokens.refresh_token)
-        access_token.value = tokens.access_token
-        refresh_token.value = tokens.refresh_token
-    }
+  const logOut = () => {
+    removeItem('access_token')
+    removeItem('refresh_token')
+    accessToken.value = null
+    refresh_token.value = null
+  }
 
-    return {useAUTHStore, setTokens, getTokens, logOut, isAuthenticated}
+  const login = (tokens: ITokens) => {
+    setItem('access_token', tokens.access_token)
+    setItem('refresh_token', tokens.refresh_token)
+    accessToken.value = tokens.access_token
+    refresh_token.value = tokens.refresh_token
+  }
+
+  return { login, getTokens, logOut, isAuthenticated }
 })
 
 export default useAUTHStore

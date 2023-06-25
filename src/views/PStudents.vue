@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <h5>hels</h5>
+    <h1>Hi</h1>
   </div>
 </template>
-<script setup>
-</script>
+<script setup></script>

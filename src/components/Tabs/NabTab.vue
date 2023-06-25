@@ -1,21 +1,19 @@
 <template>
   <router-link :to="item?.link">
     <div class="py-4 px-[54px]">
-      <p class="uppercase text-blue-200/60">{{item.title}}</p>
+      <p class="uppercase text-blue-200/60">{{ item.title }}</p>
     </div>
   </router-link>
 </template>
 
 <script lang="ts" setup>
-
 interface Props {
   item: [
     {
-      link: string,
+      link: string
       title: string
     }
   ]
 }
 const props = defineProps<Props>()
-
 </script>

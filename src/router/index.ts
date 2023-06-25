@@ -1,41 +1,40 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue';
-import Admin from '../views/Admin.vue';
-import Students from "../views/Students.vue"
-import Dashboard from "../views/Dashboard.vue"
-import Sponsors from "@/views/Sponsors.vue";
-import auth from "../components/middleware/auth"
+import auth from '@/middleware/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'PHomeView',
       beforeEnter: [auth],
-      component: HomeView
+      component: () => import('@/views/PHomeView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('@/layout/LError.vue')
     },
     {
       path: '/admin',
-      name: 'admin',
+      name: 'PAdmin',
       beforeEnter: [auth],
-      component: Admin,
+      component: () => import('@/views/PAdmin.vue'),
       children: [
         {
           path: 'dashboard',
-          name: 'dashboard',
-          component: Dashboard
+          name: 'PDashboard',
+          component: () => import('@/views/PDashboard.vue')
         },
         {
           path: 'sponsors',
-          name: 'sponsors',
-          component: Sponsors
+          name: 'PSponsors',
+          component: () => import('@/views/PSponsors.vue')
         },
         {
           path: 'students',
-          name: 'students',
-          component: Students
-        },
+          name: 'PStudents',
+          component: () => import('@/views/PStudents.vue')
+        }
       ]
     }
   ]
