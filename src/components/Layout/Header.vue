@@ -94,6 +94,5 @@ const router = useRouter()
 const store = useAuthStore()
 function logOut() {
   store.logOut()
-  router.push('/')
 }
 </script>

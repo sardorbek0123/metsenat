@@ -1,42 +1,41 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { getItem, removeItem } from '@/service/localstorage'
+import {getItem, removeItem, setItem} from '@/service/localstorage'
 
 interface ITokens {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  refreshToken: string
 }
 
 export const useAuthStore = defineStore('main', () => {
   const accessToken = getItem('access_token')
-  const refresh_token = getItem('refresh_token')
+  const refreshToken = getItem('refresh_token')
 
   const isAuthenticated = computed(() => {
-    return !(!accessToken.value && !refresh_token.value)
+    return !(!accessToken && !refreshToken)
   })
 
   const getTokens = computed(() => {
     return {
-      access_token: accessToken.value,
-      refresh_token: refresh_token.value
+      access_token: accessToken,
+      refresh_token: refreshToken
     }
   })
 
   const logOut = () => {
     removeItem('access_token')
     removeItem('refresh_token')
-    accessToken.value = null
-    refresh_token.value = null
+    window.location.reload()
   }
 
   const login = (tokens: ITokens) => {
-    setItem('access_token', tokens.access_token)
-    setItem('refresh_token', tokens.refresh_token)
-    accessToken.value = tokens.access_token
-    refresh_token.value = tokens.refresh_token
+    setItem('access_token', tokens.accessToken)
+    setItem('refresh_token', tokens.refreshToken)
+    // accessToken = tokens.accessToken
+    // refreshToken = tokens.refreshToken
   }
 
   return { login, getTokens, logOut, isAuthenticated }
 })
 
-export default useAUTHStore
+export default useAuthStore

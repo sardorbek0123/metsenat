@@ -7,15 +7,24 @@ const router = createRouter({
     {
       path: '/',
       name: 'PHomeView',
+      meta: {
+        layout: 'auth'
+      },
       beforeEnter: [auth],
       component: () => import('@/views/PHomeView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
+      meta: {
+        layout: 'error'
+      },
       component: () => import('@/layout/LError.vue')
     },
     {
       path: '/admin',
+      meta: {
+        layout: 'default'
+      },
       name: 'PAdmin',
       beforeEnter: [auth],
       component: () => import('@/views/PAdmin.vue'),
