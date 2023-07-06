@@ -5,7 +5,11 @@
     </div>
     <form @submit.prevent="onSubmit" class="p-8 bg-white rounded-xl w-[315px] mt-12">
       <p class="font-bold text-blue-400 text-2xl">Kirish</p>
-      <div class="mt-11">
+
+      <p class="text-red" v-if="error?.show">{{ error?.message }}</p>
+      <div class="mt-11"
+           :class="{'!mt-2': error.show}"
+      >
         <div class="flex flex-col">
           <label for="login" class="uppercase font-bold text-xs mb-2">Login</label>
           <input
@@ -16,12 +20,14 @@
               required
               placeholder="admin"
               class="bg-gray-200/20 text-[15px] rounded-md border-2 border-[#E0E7FF] outline-0 p-2 ring-0"
+              :class="{'border-[red]' :error.show}"
           />
         </div>
         <div class="flex flex-col mt-4">
           <label for="password" class="uppercase font-bold text-xs mb-2">Parol</label>
           <div
               class="flex justify-between items-center bg-gray-200/20 rounded-md border-2 border-[#E0E7FF] p-2 max-h-[42px]"
+              :class="{'border-[red]' :error.show}"
           >
             <input
                 name="password"
@@ -66,16 +72,14 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
 import {VueRecaptcha} from 'vue-recaptcha'
-import axios from 'axios'
 import VButton from '../components/Button/VButton.vue'
 import {useAuthStore} from '@/stores'
-import {useRouter} from 'vue-router'
 import {useApi} from "@/helpers/axois";
+import UsernameInput from "@/components/Inputs/UsernameInput.vue";
 
 const store = useAuthStore()
-const router = useRouter()
 let recaptchaToken = ref('')
 
 function verify() {
@@ -89,9 +93,14 @@ const loading = ref(false)
 const login = ref('')
 const password = ref('')
 const isVisible = ref(false)
+const error = reactive({
+  show: false,
+  message: ''
+})
 
 async function onSubmit() {
   if (recaptchaToken.value !== '') {
+    error.show = false
     loading.value = true
     try {
       console.log('try')
@@ -104,8 +113,9 @@ async function onSubmit() {
         refreshToken: res.refresh,
       })
       window.location.reload()
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      error.show = true
+      error.message = err?.response?.data?.detail
     } finally {
       loading.value = false
     }

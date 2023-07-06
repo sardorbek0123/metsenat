@@ -16,7 +16,7 @@
           <input
               type="text"
               placeholder="Izlash"
-              class="placeholder-gray-300 bg-transparent outline-0"
+              class="placeholder-gray-300 bg-transparent outline-0 h-full"
           />
         </div>
         <button class="flex items-center gap-2.5 px-8 py-2 bg-blue-100 rounded-md">
