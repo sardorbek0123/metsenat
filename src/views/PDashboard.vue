@@ -19,8 +19,8 @@
 
 <script setup lang="ts">
 import PaidMoney from '@/components/Card/PaidMoney.vue'
-import {ref} from 'vue'
-import {ApexOptions} from 'apexcharts'
+import { ref } from 'vue'
+import type { ApexOptions } from 'apexcharts'
 import VueApexCharts from "vue3-apexcharts";
 
 const series = ref([

@@ -99,23 +99,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineEmits, defineProps, onMounted, watch } from "vue";
+import { computed, onMounted, watch } from "vue";
 
 interface Props {
-  currentPage: number;
-  total: number;
-  limit: number;
+  currentPage?: number;
+  total?: number;
+  limit?: number;
   itemClass?: string;
   activeClass?: string;
   disableClass?: string;
   paginationButtons?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
+const props: Props = withDefaults<Props>(defineProps<Props>(), {
   itemClass:
       "text-gray border border-gray rounded-md w-8 h-8 flex-center transition-300 hover:!bg-blue-50 hover:!border-transparent hover:!text-blue",
   activeClass: "!bg-blue-50 !border-transparent !text-blue",
 });
+
+
 const emit = defineEmits(["change", "input"]);
 const pageCount = computed(() => Math.ceil(props.total / props.limit));
 const items = computed(() => {
@@ -130,6 +132,7 @@ const items = computed(() => {
   const dotsBefore = valPrev > 3 ? 2 : null;
   const dotsAfter = valNext < pageCount.value - 2 ? pageCount.value - 1 : null;
   const output = [];
+
   for (let i = 1; i <= pageCount.value; i += 1) {
     if (
         [

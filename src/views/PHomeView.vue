@@ -77,15 +77,14 @@ import {VueRecaptcha} from 'vue-recaptcha'
 import VButton from '../components/Button/VButton.vue'
 import {useAuthStore} from '@/stores'
 import {useApi} from "@/helpers/axois";
-import UsernameInput from "@/components/Inputs/UsernameInput.vue";
 
 const store = useAuthStore()
 let recaptchaToken = ref('')
 
-function verify() {
-  console.log(event)
-  recaptchaToken.value = event?.data
+function verify(event: { data?: string }) {
+  recaptchaToken.value = event?.data;
 }
+
 
 const inputPass = ref(null)
 

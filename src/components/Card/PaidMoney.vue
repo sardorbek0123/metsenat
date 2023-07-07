@@ -15,9 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-
-const props = defineProps({
+defineProps({
   title: String,
   subtitle: {
     type: String,
@@ -27,5 +25,5 @@ const props = defineProps({
   currency: String,
   bgColor: String,
   textColor: String
-})
+});
 </script>

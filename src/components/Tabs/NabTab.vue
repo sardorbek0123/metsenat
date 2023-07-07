@@ -7,8 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps} from 'vue'
-
 interface Props {
   item: {
     link: string
@@ -17,5 +15,5 @@ interface Props {
   isActive: boolean
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 </script>
