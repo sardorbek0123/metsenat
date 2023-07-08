@@ -86,7 +86,7 @@ function verify(event: { data?: string }) {
 }
 
 
-const inputPass = ref(null)
+const inputPass = ref<HTMLInputElement | null>(null)
 
 const loading = ref(false)
 const login = ref('')
