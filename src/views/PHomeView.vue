@@ -75,7 +75,7 @@ import { reactive, ref } from 'vue';
 import { VueRecaptcha } from 'vue-recaptcha';
 import VButton from '../components/Button/VButton.vue';
 import { useAuthStore } from '@/stores';
-import { useApi } from '@/helpers/axios';
+import { useApi } from '@/helpers/axois';
 
 const store = useAuthStore();
 let recaptchaToken = ref('');
