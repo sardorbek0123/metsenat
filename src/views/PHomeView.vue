@@ -78,13 +78,14 @@ import { useAuthStore } from '@/stores';
 import { useApi } from '@/helpers/axois';
 
 const store = useAuthStore();
-let recaptchaToken = ref('');
+let recaptchaToken = ref();
+
 
 function verify(event: { data?: string }) {
   recaptchaToken.value = event?.data;
 }
 
-const inputPass = ref<HTMLInputElement | null>(null);
+const inputPass = ref();
 
 const loading = ref(false);
 const login = ref('');
@@ -101,7 +102,7 @@ async function onSubmit() {
     loading.value = true;
     try {
       console.log('try');
-      const res = await useApi.post('/auth/login/', {
+      const res: any = await useApi.post('/auth/login/', {
         username: login.value,
         password: password.value
       });
@@ -110,7 +111,7 @@ async function onSubmit() {
         refreshToken: res.data.refresh
       });
       window.location.reload();
-    } catch (err) {
+    } catch (err: any) {
       error.show = true;
       error.message = err?.response?.data?.detail;
     } finally {
@@ -122,7 +123,7 @@ async function onSubmit() {
 function togglePassword() {
   isVisible.value = !isVisible.value;
   const inputType = inputPass.value?.type;
-  const changer = {
+  const changer: any = {
     password: 'text',
     text: 'password'
   };
@@ -130,6 +131,7 @@ function togglePassword() {
     inputPass.value.type = changer[inputType];
   }
 }
+
 </script>
 
 
