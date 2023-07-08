@@ -83,7 +83,6 @@
         </select>
       </div>
 
-      <CPagination :total="sponsors?.total" :limit="pageSize.value" :current-page="currentPage.value" pagination-buttons/>
 
     </div>
 
@@ -97,7 +96,6 @@ import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";
 import dayjs from "dayjs";
 import Table from '@/components/CTable.vue'
-import CPagination from "@/components/Pagination/CPagination.vue";
 
 const route = useRoute()
 const router = useRouter()
