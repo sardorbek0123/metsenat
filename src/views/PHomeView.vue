@@ -70,65 +70,65 @@
     </form>
   </div>
 </template>
-
 <script setup lang="ts">
-import {reactive, ref} from 'vue'
-import {VueRecaptcha} from 'vue-recaptcha'
-import VButton from '../components/Button/VButton.vue'
-import {useAuthStore} from '@/stores'
-import {useApi} from "@/helpers/axois";
+import { reactive, ref } from 'vue';
+import { VueRecaptcha } from 'vue-recaptcha';
+import VButton from '../components/Button/VButton.vue';
+import { useAuthStore } from '@/stores';
+import { useApi } from '@/helpers/axios';
 
-const store = useAuthStore()
-let recaptchaToken = ref('')
+const store = useAuthStore();
+let recaptchaToken = ref('');
 
 function verify(event: { data?: string }) {
   recaptchaToken.value = event?.data;
 }
 
+const inputPass = ref<HTMLInputElement | null>(null);
 
-const inputPass = ref<HTMLInputElement | null>(null)
-
-const loading = ref(false)
-const login = ref('')
-const password = ref('')
-const isVisible = ref(false)
+const loading = ref(false);
+const login = ref('');
+const password = ref('');
+const isVisible = ref(false);
 const error = reactive({
   show: false,
   message: ''
-})
+});
 
 async function onSubmit() {
   if (recaptchaToken.value !== '') {
-    error.show = false
-    loading.value = true
+    error.show = false;
+    loading.value = true;
     try {
-      console.log('try')
+      console.log('try');
       const res = await useApi.post('/auth/login/', {
         username: login.value,
         password: password.value
-      })
+      });
       store.login({
-        accessToken: res.access,
-        refreshToken: res.refresh,
-      })
-      window.location.reload()
+        accessToken: res.data.access,
+        refreshToken: res.data.refresh
+      });
+      window.location.reload();
     } catch (err) {
-      error.show = true
-      error.message = err?.response?.data?.detail
+      error.show = true;
+      error.message = err?.response?.data?.detail;
     } finally {
-      loading.value = false
+      loading.value = false;
     }
   }
 }
 
 function togglePassword() {
-  isVisible.value = !isVisible.value
-  const inputType = inputPass.value.type
+  isVisible.value = !isVisible.value;
+  const inputType = inputPass.value?.type;
   const changer = {
     password: 'text',
     text: 'password'
+  };
+  if (inputType) {
+    inputPass.value.type = changer[inputType];
   }
-  inputPass.value.type = changer[inputType]
 }
 </script>
 

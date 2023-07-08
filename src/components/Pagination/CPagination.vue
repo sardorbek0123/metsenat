@@ -99,8 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, defineEmits, computed } from 'vue';
-
+import {defineEmits, computed, onMounted} from 'vue';
 
 interface Props {
   currentPage?: number;
@@ -114,15 +113,18 @@ interface Props {
 
 const props: Props = withDefaults(defineProps<Props>(), {
   itemClass:
-      "text-gray border border-gray rounded-md w-8 h-8 flex-center transition-300 hover:!bg-blue-50 hover:!border-transparent hover:!text-blue",
-  activeClass: "!bg-blue-50 !border-transparent !text-blue",
+      'text-gray border border-gray rounded-md w-8 h-8 flex-center transition-300 hover:!bg-blue-50 hover:!border-transparent hover:!text-blue',
+  activeClass: '!bg-blue-50 !border-transparent !text-blue',
 }) as Props;
 
 
-
-const emit = defineEmits(["change", "input"]) as { (event: 'change'): void, (event: 'input', value: number): void };
+const emit = defineEmits(['change', 'input']) as {
+  (event: 'change'): void;
+  (event: 'input', value: number): void;
+};
 
 const pageCount = computed(() => Math.ceil(props.total / props.limit));
+
 const items = computed(() => {
   const valPrev = props.currentPage > 1 ? props.currentPage - 1 : 1;
   const valNext =
@@ -159,40 +161,41 @@ const items = computed(() => {
   }
   return output;
 });
+
 const hasFirst = computed(() => props.currentPage === 1);
 const hasLast = computed(() => props.currentPage === pageCount.value);
-watch(
-    () => props.currentPage,
-    () => {
-      emit("change");
-    }
-);
+
 function first() {
   if (!hasFirst.value) {
-    emit("input", 1);
+    emit('input', 1);
   }
 }
+
 function prev() {
   if (!hasFirst.value) {
-    emit("input", props.currentPage - 1);
+    emit('input', props.currentPage - 1);
   }
 }
+
 function goto(page: number) {
-  emit("input", page);
+  emit('input', page);
 }
+
 function next() {
   if (!hasLast.value) {
-    emit("input", props.currentPage + 1);
+    emit('input', props.currentPage + 1);
   }
 }
+
 function last() {
   if (!hasLast.value) {
-    emit("input", pageCount.value);
+    emit('input', pageCount.value);
   }
 }
+
 onMounted(() => {
   if (props.currentPage > pageCount.value) {
-    emit("change");
+    emit('change');
   }
 });
 </script>
