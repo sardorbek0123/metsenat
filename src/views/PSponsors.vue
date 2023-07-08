@@ -90,7 +90,7 @@
 </template>
 
 <script setup>
-import {useApi} from "@/helpers/axois";
+import {useApi} from "@/helpers/axios";
 import {onMounted, ref, reactive, watch, computed} from 'vue';
 import {useRoute} from "vue-router";
 import {useRouter} from "vue-router";

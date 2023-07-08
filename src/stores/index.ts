@@ -31,8 +31,6 @@ export const useAuthStore = defineStore('main', () => {
   const login = (tokens: ITokens) => {
     setItem('access_token', tokens.accessToken)
     setItem('refresh_token', tokens.refreshToken)
-    // accessToken = tokens.accessToken
-    // refreshToken = tokens.refreshToken
   }
 
   return { login, getTokens, logOut, isAuthenticated }

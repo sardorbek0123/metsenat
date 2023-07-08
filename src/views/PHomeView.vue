@@ -8,7 +8,7 @@
 
       <p class="text-red" v-if="error?.show">{{ error?.message }}</p>
       <div class="mt-11"
-           :class="{'!mt-2': error.show}"
+           :class="{'!mt-2': error?.show}"
       >
         <div class="flex flex-col">
           <label for="login" class="uppercase font-bold text-xs mb-2">Login</label>
@@ -20,14 +20,14 @@
               required
               placeholder="admin"
               class="bg-gray-200/20 text-[15px] rounded-md border-2 border-[#E0E7FF] outline-0 p-2 ring-0"
-              :class="{'border-[red]' :error.show}"
+              :class="{'border-[red]' :error?.show}"
           />
         </div>
         <div class="flex flex-col mt-4">
           <label for="password" class="uppercase font-bold text-xs mb-2">Parol</label>
           <div
               class="flex justify-between items-center bg-gray-200/20 rounded-md border-2 border-[#E0E7FF] p-2 max-h-[42px]"
-              :class="{'border-[red]' :error.show}"
+              :class="{'border-[red]' :error?.show}"
           >
             <input
                 name="password"
@@ -59,34 +59,37 @@
           />
         </div>
         <VButton
-            label="Kirish"
-            class="w-full flex items-center justify-center hover:cursor-pointer"
+            class="w-full flex items-center justify-center hover:cursor-pointer h-[50px]"
             :class="{ disabled: !recaptchaToken }"
             :disabled="!recaptchaToken"
         >
-          <div v-if="loading" class="spinner"></div>
+          <template #default>
+            <div v-if="loading" class="spinner py-3"></div>
+          </template>
+          <template #label>
+            {{ loading ? '' : 'Kirish' }}
+          </template>
         </VButton>
       </div>
     </form>
   </div>
 </template>
+
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import { VueRecaptcha } from 'vue-recaptcha';
+import {reactive, ref} from 'vue';
+import {VueRecaptcha} from 'vue-recaptcha';
 import VButton from '../components/Button/VButton.vue';
-import { useAuthStore } from '@/stores';
-import { useApi } from '@/helpers/axois';
+import {useAuthStore} from '@/stores';
+import {useApi} from '@/helpers/axios';
 
 const store = useAuthStore();
 let recaptchaToken = ref();
 
-
-function verify(event: { data?: string }) {
-  recaptchaToken.value = event?.data;
+function verify(event) {
+  recaptchaToken.value = event;
 }
 
 const inputPass = ref();
-
 const loading = ref(false);
 const login = ref('');
 const password = ref('');
@@ -101,14 +104,13 @@ async function onSubmit() {
     error.show = false;
     loading.value = true;
     try {
-      console.log('try');
       const res: any = await useApi.post('/auth/login/', {
         username: login.value,
         password: password.value
       });
       store.login({
-        accessToken: res.data.access,
-        refreshToken: res.data.refresh
+        accessToken: res.access,
+        refreshToken: res.refresh
       });
       window.location.reload();
     } catch (err: any) {
@@ -131,9 +133,7 @@ function togglePassword() {
     inputPass.value.type = changer[inputType];
   }
 }
-
 </script>
-
 
 <style scoped>
 input:-webkit-autofill,
