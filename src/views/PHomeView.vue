@@ -85,7 +85,7 @@ import {useApi} from '@/helpers/axios';
 const store = useAuthStore();
 let recaptchaToken = ref();
 
-function verify(event) {
+function verify(event: any) {
   recaptchaToken.value = event;
 }
 
@@ -124,7 +124,7 @@ async function onSubmit() {
 
 function togglePassword() {
   isVisible.value = !isVisible.value;
-  const inputType = inputPass.value?.type;
+    const inputType = inputPass.value?.type;
   const changer: any = {
     password: 'text',
     text: 'password'
